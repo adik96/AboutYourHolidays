@@ -11,12 +11,11 @@ namespace AboutYourHolidays.Models
         public Rating()
         {
         }
-
         public int RateValue1 { get; set; }
-
         public int RateValue2 { get; set; }
-
         public int RateValue3 { get; set; }
+        public int RateValue4 { get; set; }
+        public int RateValue5 { get; set; }
 
         public int PostId { get; set; }
         public Post Post { get; set; }

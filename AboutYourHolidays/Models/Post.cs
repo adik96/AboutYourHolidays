@@ -14,18 +14,11 @@ namespace AboutYourHolidays.Models
             this.Ratings = new HashSet<Rating>();
         }
 
-        [Display(Name = "Title:")]
-        [MaxLength(72)]
         public string Tilte { get; set; }
-
-        [Display(Name = "Description:")]
-        [MaxLength(500)]
         public string Description { get; set; }
-
-        [Display(Name = "Address:")]
-        [MaxLength(100)]
-        public string Address { get; set; }
-
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string ImageUrl { get; set; }
         public string UserId { get; set; }
         public virtual User User { get; set; }
 
