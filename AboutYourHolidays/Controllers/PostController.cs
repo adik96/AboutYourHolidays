@@ -24,8 +24,8 @@ namespace AboutYourHolidays.Controllers
         }
         public ActionResult Index()
         {
-            var post = _context.Post.Include(p => p.User);
-            return View(post.ToList());
+            var posts = _postRepository.GetAll();//_context.Post.Include(p => p.User);
+            return View(posts.ToList());
         }
 
         // GET: Post/Details/5
@@ -35,7 +35,7 @@ namespace AboutYourHolidays.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = _context.Post.Find(id);
+            Post post = _postRepository.Get(id.Value);//_context.Post.Find(id);
             if (post == null)
             {
                 return HttpNotFound();
@@ -59,8 +59,9 @@ namespace AboutYourHolidays.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Post.Add(post);
-                _context.SaveChanges();
+                //_context.Post.Add(post);
+                //_context.SaveChanges();
+                var aa = _postRepository.Add(post);
                 return RedirectToAction("Index");
             }
 
@@ -75,7 +76,7 @@ namespace AboutYourHolidays.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = _context.Post.Find(id);
+            Post post = _postRepository.Get(id.Value);
             if (post == null)
             {
                 return HttpNotFound();
@@ -108,7 +109,7 @@ namespace AboutYourHolidays.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = _context.Post.Find(id);
+            Post post = _postRepository.Get(id.Value);//_context.Post.Find(id);
             if (post == null)
             {
                 return HttpNotFound();
@@ -121,9 +122,8 @@ namespace AboutYourHolidays.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Post post = _context.Post.Find(id);
-            _context.Post.Remove(post);
-            _context.SaveChanges();
+            //Post post = _postRepository.Get(id);
+            _postRepository.Delete(id);
             return RedirectToAction("Index");
         }
 

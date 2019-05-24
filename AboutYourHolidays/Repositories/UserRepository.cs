@@ -4,19 +4,19 @@ using System.Data.Entity;
 
 namespace AboutYourHolidays.Repositories
 {
-    public class PostRepository : BaseRepository<Post>
+    public class UserRepository : BaseRepository<User>
     {
         private ApplicationDbContext _context;
-        public override DbSet<Post> DataCollection
+        public override DbSet<User> DataCollection
         {
-            get { return _context.Post; }
+            get { return _context.User; }
         }
-        public PostRepository(ApplicationDbContext context) : base(context)
+        public UserRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
         }
-        
-        
-        
+
+
+
     }
 }
