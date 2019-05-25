@@ -61,7 +61,6 @@ namespace AboutYourHolidays.Migrations
                     Tilte = "Treœæ og³oszenia" + i.ToString(),
                     Description = "Tytu³ og³oszenia" + i.ToString(),
                     CreatedOn = DateTime.Now.AddDays(-i),
-                    LastUpdatedOn = DateTime.Now.AddDays(-i)
                 };
                 context.Set<Post>().AddOrUpdate(ogl);
             }

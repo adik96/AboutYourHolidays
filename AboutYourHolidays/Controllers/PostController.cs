@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AboutYourHolidays.Models;
 using AboutYourHolidays.Repositories;
+using AboutYourHolidays.ViewModels.PostViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace AboutYourHolidays.Controllers
 {
@@ -44,29 +48,41 @@ namespace AboutYourHolidays.Controllers
         }
 
         // GET: Post/Create
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.UserId = new SelectList(_context.Users, "Id", "Email");
-            return View();
-        }
+            PostAddViewModel postmodel = new PostAddViewModel()
+            {
 
-        // POST: Post/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+            };
+            return View(postmodel);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Tilte,Description,Country,City,ImageUrl,UserId,CreatedOn,LastUpdatedOn")] Post post)
+        public ActionResult Create(PostAddViewModel addmodel, HttpPostedFileBase[] ImageFile)
         {
-            if (ModelState.IsValid)
+            Post post = PostAddViewModel.ToDB(addmodel);
+            post.CreatedOn = DateTime.Now;
+            post.UserId=User.Identity.GetUserId();
+            _postRepository.Add(post);
+            string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
+            string uploadFullPath = Server.MapPath(fulPathName);
+            string endString = post.Id.ToString();
+            Directory.CreateDirectory(uploadFullPath + endString);
+            int i = 0;
+            foreach (var pp in ImageFile)
             {
-                //_context.Post.Add(post);
-                //_context.SaveChanges();
-                var aa = _postRepository.Add(post);
-                return RedirectToAction("Index");
-            }
+                string extension = ".jpg";
+                string fileName = i + extension;
+                addmodel.ImageUrl = uploadFullPath + endString + "/" + fileName;
+                //sciezka zapisu zdjecia
+                fileName = Path.Combine(Server.MapPath("/Uploads/" + endString), fileName);
+                pp.SaveAs(fileName);
 
-            ViewBag.UserId = new SelectList(_context.Users, "Id", "Email", post.UserId);
-            return View(post);
+                i++;
+            }
+            return RedirectToAction("Index", "Home", null);
         }
 
         // GET: Post/Edit/5

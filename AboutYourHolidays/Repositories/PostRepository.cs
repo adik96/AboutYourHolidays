@@ -15,8 +15,12 @@ namespace AboutYourHolidays.Repositories
         {
             _context = context;
         }
-        
-        
-        
+        public bool Add(Post post)
+        {
+            _context.Post.Add(post);
+            return _context.SaveChanges() > 0;
+        }
+
+
     }
 }
