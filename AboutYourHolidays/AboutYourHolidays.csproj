@@ -202,7 +202,7 @@
     <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CommentViewModels\CommentDetailsModel.cs" />
-    <Compile Include="ViewModels\PostViewModels\PostDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PostViewModels\PostDetailsModel.cs" />
     <Compile Include="ViewModels\PostViewModels\PostIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

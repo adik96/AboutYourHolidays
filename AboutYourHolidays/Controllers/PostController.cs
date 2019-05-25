@@ -29,9 +29,9 @@ namespace AboutYourHolidays.Controllers
             if (text != null)
                 posts = posts.Where(x => x.Tilte.Contains(text) || x.Description.Contains(text));
 
-            List<PostDetailsViewModel> list = new List<PostDetailsViewModel>();
+            List<PostDetailsModel> list = new List<PostDetailsModel>();
             foreach (var el in posts.ToList())
-                list.Add((PostDetailsViewModel)el);
+                list.Add((PostDetailsModel)el);
 
             return View(list);
         }
