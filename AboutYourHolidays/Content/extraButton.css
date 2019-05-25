@@ -1,0 +1,80 @@
+﻿input.extraButton {
+    width: 6.5em;
+    color: white;
+    font-size: inherit;
+    font-family: inherit;
+    background-color: gray;//hsl(236, 32%, 26%);
+    padding: 0.35em 0.45em;
+    border: 1px solid transparent;
+    transition: background-color 0.3s ease-in-out;
+}
+
+    input.extraButton:focus {
+        outline: none;
+    }
+
+    input.extraButton::placeholder {
+        color: hsla(0, 0%, 100%, 0.6);
+    }
+
+.extraButton span {
+    position: absolute;
+    background-color: #3cefff;
+    transition: transform 0.5s ease;
+}
+
+.extraButton .bottom,
+.extraButton .top {
+    height: 1px;
+    left: 0;
+    right: 0;
+    transform: scaleX(0);
+}
+
+.extraButton .left,
+.extraButton .right {
+    width: 1px;
+    top: 0;
+    bottom: 0;
+    transform: scaleY(0);
+}
+
+.extraButton .bottom {
+    bottom: 0;
+    transform-origin: bottom right;
+}
+
+input.extraButton:focus ~ .bottom {
+    transform-origin: bottom left;
+    transform: scaleX(1);
+}
+
+.extraButton .right {
+    right: 0;
+    transform-origin: top right;
+}
+
+input.extraButton:focus ~ .right {
+    transform-origin: bottom right;
+    transform: scaleY(1);
+}
+
+.extraButton .top {
+    top: 0;
+    transform-origin: top left;
+}
+
+input.extraButton:focus ~ .top {
+    transform-origin: top right;
+    transform: scaleX(1);
+}
+
+.extraButton .left {
+    left: 0;
+    transform-origin: bottom left;
+}
+
+input.extraButton:focus ~ .left {
+    transform-origin: top left;
+    transform: scaleY(1);
+}

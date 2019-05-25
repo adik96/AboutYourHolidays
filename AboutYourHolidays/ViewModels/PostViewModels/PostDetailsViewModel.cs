@@ -5,8 +5,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AboutYourHolidays.ViewModels.PostViewModels
 {
-    public class PostDetailsModel
+    public class PostDetailsViewModel
     {
+        public int Id { get; set; }
+
         [Display(Name = "Tytuł:")]
         [MaxLength(72)]
         public string Tilte { get; set; }
@@ -28,11 +30,12 @@ namespace AboutYourHolidays.ViewModels.PostViewModels
 
         public List<Comment> Comments { get; set; }
 
-        public static explicit operator PostDetailsModel(Post dbPost)
+        public static explicit operator PostDetailsViewModel(Post dbPost)
         {
-            if (dbPost == null) { return (PostDetailsModel)null; }
-            var ps = new PostDetailsModel
+            if (dbPost == null) { return (PostDetailsViewModel)null; }
+            var ps = new PostDetailsViewModel
             {
+                Id = dbPost.Id,
                 Tilte = dbPost.Tilte,
                 Description = dbPost.Description,
                 Country = dbPost.Country,

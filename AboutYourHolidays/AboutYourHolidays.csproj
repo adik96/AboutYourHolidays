@@ -202,7 +202,7 @@
     <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CommentViewModels\CommentDetailsModel.cs" />
-    <Compile Include="ViewModels\PostViewModels\PostDetailsModel.cs" />
+    <Compile Include="ViewModels\PostViewModels\PostDetailsViewModel.cs" />
     <Compile Include="ViewModels\PostViewModels\PostIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +210,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\extraButton.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -227,6 +228,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Uploads\lofe.jpeg" />
+    <Content Include="Uploads\santi.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

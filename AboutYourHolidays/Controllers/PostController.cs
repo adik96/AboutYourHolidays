@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AboutYourHolidays.Models;
 using AboutYourHolidays.Repositories;
+using AboutYourHolidays.ViewModels.PostViewModels;
 
 namespace AboutYourHolidays.Controllers
 {
@@ -22,10 +23,17 @@ namespace AboutYourHolidays.Controllers
         {
             _postRepository = new PostRepository(_context);
         }
-        public ActionResult Index()
+        public ActionResult Index(string text = null)
         {
             var posts = _postRepository.GetAll();//_context.Post.Include(p => p.User);
-            return View(posts.ToList());
+            if (text != null)
+                posts = posts.Where(x => x.Tilte.Contains(text) || x.Description.Contains(text));
+
+            List<PostDetailsViewModel> list = new List<PostDetailsViewModel>();
+            foreach (var el in posts.ToList())
+                list.Add((PostDetailsViewModel)el);
+
+            return View(list);
         }
 
         // GET: Post/Details/5
