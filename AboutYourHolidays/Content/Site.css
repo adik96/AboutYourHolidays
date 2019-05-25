@@ -1,6 +1,5 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    background-color: #f6f2ed;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -17,9 +16,39 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
 
+
+.noDecoration{
+    text-decoration:none!important;
+    cursor:pointer;
+}
+.navShadow{
+    -webkit-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);
+}
+.myButton {
+    background-color: #fce29a;
+    border-radius: 6px;
+    padding: 5px 15px;
+    border: 2px solid #fce29a;
+    text-transform: none;
+    font-family: 'Lato';
+    font-weight: bold;
+    width: min-content;
+    min-width: 140px;
+    display: inline-block;
+    cursor: pointer !important;
+    color: #ffffff !important;
+    text-decoration: none;
+}
+.myButton:hover {
+    background-color: #f7cf6f;
+    border: 2px solid #f7cf6f;
+}
+.orangeContainer {
+    background-color: white;
+    border: 2px solid white;
+    border-radius: 6px;
+    padding: 50px 0px;
+}

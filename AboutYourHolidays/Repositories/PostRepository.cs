@@ -1,6 +1,8 @@
 ﻿using System;
 using AboutYourHolidays.Models;
 using System.Data.Entity;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AboutYourHolidays.Repositories
 {
@@ -19,6 +21,12 @@ namespace AboutYourHolidays.Repositories
         {
             _context.Post.Add(post);
             return _context.SaveChanges() > 0;
+        }
+        public Post Get(int Id)
+        {
+            return _context.Post
+                .SingleOrDefault(p=>p.Id == Id);
+
         }
 
 

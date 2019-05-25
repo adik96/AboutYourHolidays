@@ -9,88 +9,81 @@
 
 }
 
-<h2>Create</h2>
 
 
-@using (Html.BeginForm("Create", "Post", FormMethod.Post, new { enctype = "multipart/form-data", @class = "dropzone", id = "mydropzone" }))
-{
-    @Html.AntiForgeryToken()
+<div class="container d-flex w-100 justify-content-center orangeContainer">
+    <div class="form-group col-sm-7 col-md-7 col-lg-7 col-12" style="text-align: center">
+        <h2 style="margin-bottom:40px">Dodaj nowy wpis</h2>
+        @using (Html.BeginForm("Create", "Post", FormMethod.Post, new { enctype = "multipart/form-data", @class = "dropzone", id = "mydropzone" }))
+        {
+            @Html.AntiForgeryToken()
 
 
 
-}
+        }
+
+        <div class=" mt-3">
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", id = "Title", @placeholder = "Tutuł..." } })
+            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        </div>
+        <div class="mt-3">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @maxlength = "300", style = "height:200px", id = "Description", @placeholder = "Opis..." } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mt-3">
+            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", id = "Country", @placeholder = "Kraj..." } })
+            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+        </div>
 
 
-<div class="form-group">
-    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", id="Title" } })
-        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        <div class="mt-3">
+            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", id = "City", @placeholder = "Miasto..." } })
+            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+        </div>
+
+
+        <div class="text-center mt-auto" style="margin-top:20px!important">
+            <input type="button"
+                   value="Zapisz"
+                   class="addpost myButton" />
+        </div>
     </div>
 </div>
+    @section Scripts {
+        <script src="~/Libraries/Dropzone/dropzone.js"></script>
+        <script>
+            Dropzone.autoDiscover = false;
+            $(function () {
+                var dz = null;
+                var myDropzone = $("#mydropzone").dropzone({
+                    autoProcessQueue: false,
+                    paramName: "ImageFile",
+                    uploadMultiple: true,
+                    addRemoveLinks: true,
+                    acceptedFiles: ".jpeg,.png,.jpg",
+                    init: function () {
+                        dz = this;
+                        $('.addpost').click(function () {
+                            dz.processQueue();
+                        })
+                    },
+                    sending: function (file, xhr, formData) {
+                        formData.append('Title', $('#Title').val());
+                        formData.append('Description', $('#Description').val());
+                        formData.append('Country', $('#Country').val());
+                        formData.append('City', $('#City').val());
 
-<div class="form-group">
-    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", id = "Description" } })
-        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-    </div>
-</div>
+                    },
+                    success: function () {
+                    window.location.href = '@Url.Action("Index", "Home")';
+                    },
+                    dictDefaultMessage: "Dodaj zdjęcia",
+                    dictRemoveFile: "Usuń"
 
-<div class="form-group">
-    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", id = "Country" } })
-        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", id = "City" } })
-        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-<div class="text-center mt-auto">
-    <input type="button"
-           value="Zapisz"
-           class="addpost btn btn-primary" />
-</div>
-
-
-@section Scripts {
-    <script src="~/Libraries/Dropzone/dropzone.js"></script>
-    <script>
-        Dropzone.autoDiscover = false;
-        $(function () {
-            var dz = null;
-            var myDropzone=$("#mydropzone").dropzone({
-                autoProcessQueue: false,
-                paramName: "ImageFile",
-                uploadMultiple: true,
-                addRemoveLinks: true,
-                acceptedFiles: ".jpeg,.png,.jpg",
-                init: function () {
-                    dz = this;
-                    $('.addpost').click(function () {
-                        dz.processQueue();
-                    })
-                },
-                sending: function (file, xhr, formData) {
-                    formData.append('Title', $('#Title').val());
-                    formData.append('Description', $('#Description').val());
-                    formData.append('Country', $('#Country').val());
-                    formData.append('City', $('#City').val());
-
-                },
-                dictDefaultMessage: "Dodaj zdjęcia",
-                dictRemoveFile: "Usuń"
+                });
 
             });
-
-        });
-    </script>
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        </script>
+        @Scripts.Render("~/bundles/jqueryval")
+    }

@@ -18,8 +18,8 @@ namespace AboutYourHolidays.Migrations
         protected override void Seed(ApplicationDbContext context)
         {
             // Do debugowania metody seed
-             if (System.Diagnostics.Debugger.IsAttached == false)
-                System.Diagnostics.Debugger.Launch();
+            // if (System.Diagnostics.Debugger.IsAttached == false)
+            //    System.Diagnostics.Debugger.Launch();
 
             SeedRoles(context);
             SeedUsers(context);

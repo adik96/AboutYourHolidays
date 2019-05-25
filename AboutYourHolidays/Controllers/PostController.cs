@@ -40,13 +40,9 @@ namespace AboutYourHolidays.Controllers
         }
 
         // GET: Post/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Post post = _postRepository.Get(id.Value);//_context.Post.Find(id);
+            Post post = _postRepository.Get(id);//_context.Post.Find(id);
             if (post == null)
             {
                 return HttpNotFound();
