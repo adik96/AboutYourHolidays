@@ -1,97 +1,96 @@
-﻿@model AboutYourHolidays.ViewModels.PostViewModels.PostDetailsViewModel
+﻿@model AboutYourHolidays.ViewModels.PostViewModels.PostAddViewModel
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="~/Libraries/Dropzone/basic.css" />
+    <link rel="stylesheet" href="~/Libraries/Dropzone/dropzone.css" />
+
+
 }
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Post", FormMethod.Post, new { enctype = "multipart/form-data", @class = "dropzone", id = "mydropzone" }))
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Post</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Tilte, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Tilte, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Tilte, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Description, new { @class = "form-control" , @rows = 3})
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    
-    <div class="form-group">
-        @*@Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })*@
-        <div class="col-md-10">
-            @*@Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })*@
-        </div>
-    </div>
-    @*
-    <div class="form-group">
-        @Html.LabelFor(model => model.CreatedOn, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CreatedOn, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CreatedOn, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.LastUpdatedOn, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.LastUpdatedOn, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.LastUpdatedOn, "", new { @class = "text-danger" })
-        </div>
-    </div>
-     *@   
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", id="Title" } })
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+    </div>
 </div>
 
+<div class="form-group">
+    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", id = "Description" } })
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", id = "Country" } })
+        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", id = "City" } })
+        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="text-center mt-auto">
+    <input type="button"
+           value="Zapisz"
+           class="addpost btn btn-primary" />
+</div>
+
+
 @section Scripts {
+    <script src="~/Libraries/Dropzone/dropzone.js"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+        $(function () {
+            var dz = null;
+            var myDropzone=$("#mydropzone").dropzone({
+                autoProcessQueue: false,
+                paramName: "ImageFile",
+                uploadMultiple: true,
+                addRemoveLinks: true,
+                acceptedFiles: ".jpeg,.png,.jpg",
+                init: function () {
+                    dz = this;
+                    $('.addpost').click(function () {
+                        dz.processQueue();
+                    })
+                },
+                sending: function (file, xhr, formData) {
+                    formData.append('Title', $('#Title').val());
+                    formData.append('Description', $('#Description').val());
+                    formData.append('Country', $('#Country').val());
+                    formData.append('City', $('#City').val());
+
+                },
+                dictDefaultMessage: "Dodaj zdjęcia",
+                dictRemoveFile: "Usuń"
+
+            });
+
+        });
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
 }
