@@ -33,8 +33,16 @@ namespace AboutYourHolidays.Controllers
                 posts = posts.Where(x => x.Tilte.Contains(text) || x.Description.Contains(text));
 
             List<PostDetailsModel> list = new List<PostDetailsModel>();
+            string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
             foreach (var el in posts.ToList())
+            {
+                string uploadFullPath = Server.MapPath(fulPathName);
+                var fullPathToPostFolder = Directory.GetFiles(Server.MapPath(fulPathName) + el.Id.ToString());
+                var firstPhotoName = Path.GetFileName(fullPathToPostFolder.FirstOrDefault());
+                el.ImageUrl = fulPathName + el.Id.ToString() + '/' + firstPhotoName;
                 list.Add((PostDetailsModel)el);
+            }
+                
 
             return View(list);
         }

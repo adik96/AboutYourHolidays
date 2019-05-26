@@ -78,3 +78,8 @@ input.extraButton:focus ~ .left {
     transform-origin: top left;
     transform: scaleY(1);
 }
+
+
+.detailsButton:hover {
+    background-color: #fce29a;
+}
