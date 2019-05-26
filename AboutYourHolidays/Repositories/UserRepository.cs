@@ -16,7 +16,10 @@ namespace AboutYourHolidays.Repositories
             _context = context;
         }
 
-
+        public User Get(string id)
+        {
+            return DataCollection.Find(id);
+        }
 
     }
 }

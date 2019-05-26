@@ -20,11 +20,13 @@ namespace AboutYourHolidays.Controllers
         private ApplicationDbContext _context = new ApplicationDbContext();
 
         private PostRepository _postRepository = null;
- 
-
+        private CommentRepository _commentRepository = null;
+        private UserRepository _userRepository = null;
         public PostController()
         {
             _postRepository = new PostRepository(_context);
+            _commentRepository = new CommentRepository(_context);
+            _userRepository = new UserRepository(_context);
         }
         public ActionResult Index(string text = null)
         {
@@ -50,20 +52,27 @@ namespace AboutYourHolidays.Controllers
         // GET: Post/Details/5
         public ActionResult Details(int id)
         {
-            Post model = new Post();
-            model = _postRepository.Get(id);
+            //Post model = new Post();
+            var postmodel = (PostDetailsModel)_postRepository.Get(id);
             string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
 
-            PostDetailsModel postmodel = PostDetailsModel.FromDB(model);
 
 
             List<string> fullPathToPostFolder= Directory.GetFiles(Server.MapPath(fulPathName) + postmodel.Id).ToList();
             for(int z=0;z<fullPathToPostFolder.Count();z++)
             {
-                fullPathToPostFolder[z]= fulPathName+model.Id.ToString()+'/'+ Path.GetFileName(fullPathToPostFolder[z]);
+                fullPathToPostFolder[z]= fulPathName+ postmodel.Id.ToString()+'/'+ Path.GetFileName(fullPathToPostFolder[z]);
             }
-            
+            User user = new User();
             postmodel.Urls = fullPathToPostFolder;
+            if(User.Identity.GetUserId() != null)
+            {
+                user = _userRepository.Get(User.Identity.GetUserId());
+                ViewBag.UserFullName = user.Name + " " + user.Surname;
+            }
+            else
+                ViewBag.UserFullName = null;
+
             return View(postmodel);
         }
 
@@ -84,7 +93,7 @@ namespace AboutYourHolidays.Controllers
         {
             Post post = PostAddViewModel.ToDB(addmodel);
             post.CreatedOn = DateTime.Now;
-            post.UserId=User.Identity.GetUserId();
+            post.UserId = User.Identity.GetUserId();
             _postRepository.Add(post);
             string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
             string uploadFullPath = Server.MapPath(fulPathName);
@@ -103,6 +112,34 @@ namespace AboutYourHolidays.Controllers
                 i++;
             }
             return RedirectToAction("Index", "Home", null);
+        }
+
+        [Authorize]
+        public ActionResult AddComment(int id)
+        {
+            //ViewBag.UserId = new SelectList(_context.Users, "Id", "Email");
+            //PostAddViewModel postmodel = new PostAddViewModel()
+            //{
+
+            //};
+            return RedirectToAction("Details", "Post", new { id = id });
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddComment(int id, string text)
+        {
+            Comment dbComment = new Comment();
+            dbComment.CreatedOn = DateTime.Now;
+            dbComment.LastUpdatedOn = DateTime.Now;
+            dbComment.UserId = User.Identity.GetUserId();
+            dbComment.PostId = id;
+            dbComment.Text = text;
+            
+            _commentRepository.Add(dbComment);
+            _context.SaveChanges();
+            return RedirectToAction("Details", "Post", new { id = id });
         }
 
         // GET: Post/Edit/5

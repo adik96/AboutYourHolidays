@@ -22,7 +22,7 @@
     </div>
     <div class="col-6">
         <h2 class="text-center">@Model.Tilte</h2>
-        <p>Dodane przez: @Model.UserId<br /> dnia: @Model.CreatedOn</p>
+        <p>Dodane przez: @Model.User.Name @Model.User.Surname<br /> dnia: @Model.CreatedOn.ToString("dddd, dd MMMM yyyy HH:mm:ss")</p>
 
         <p>Kraj: @Model.Country</p>
         <p>Miasto: @Model.City</p>
@@ -31,6 +31,61 @@
 
 
 
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="page-header">
+                    <h1><small class="pull-right">Komentarze</small></h1>
+                </div>
+                <div class="comments-list">
+                    @foreach (var item in Model.Comments)
+                    {
+                        <div class="media">
+                            <p class="pull-right" style="margin-left:14px; margin-right: 14px;"><small>@item.CreatedOn.ToString("dd MMM yyyy")</small></p>
+                            <a class="media-left" href="#">
+                                <img src="@Url.Content("~/Uploads/default-user.png")" style="max-height: 30px; max-width: 30px;">
+                            </a>
+                            <div class="media-body" style="margin-left:14px; margin-right: 14px; margin-bottom: 14px">
+
+                                <h4 class="media-heading user_name">@item.User.Name @item.User.Surname</h4>
+                                @item.Text
+
+                                <!--<p><small><a href="">Like</a> - <a href="">Share</a></small></p>-->
+                            </div>
+                        </div>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("AddComment", "Post", new { id = Model.Id }, FormMethod.Post, new { @class = "form-inline" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="media">
+                                <p class="pull-right" style="margin-left:14px; margin-right: 14px;"><small>@DateTime.Now.ToString("dd MMM yyyy")</small></p>
+                                <a class="media-left" href="#">
+                                    <img src="@Url.Content("~/Uploads/default-user.png")" style="max-height: 30px; max-width: 30px;">
+                                </a>
+                                <div class="media-body" style="margin-left:14px; margin-right: 14px; margin-bottom: 14px">
+
+                                    <h4 class="media-heading user_name">@ViewBag.UserFullName</h4>
+                                    @Html.TextBox("text", null, htmlAttributes: new { @class = " form-control" })
+
+                                    <!--<p><small><a href="">Like</a> - <a href="">Share</a></small></p>-->
+                                </div>
+                            </div>
+
+
+                            <input type="submit" value="Dodaj komentarz" class="btn btn-default detailsButton" />
+                        }
+                    }
+
+                </div>
+
+
+
+            </div>
+        </div>
     </div>
 </div>
 

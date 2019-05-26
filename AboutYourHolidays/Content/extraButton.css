@@ -83,3 +83,12 @@ input.extraButton:focus ~ .left {
 .detailsButton:hover {
     background-color: #fce29a;
 }
+
+.user_name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.comments-list .media {
+    border-bottom: 1px dotted #ccc;
+}

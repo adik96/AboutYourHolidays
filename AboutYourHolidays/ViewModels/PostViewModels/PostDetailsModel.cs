@@ -25,10 +25,10 @@ namespace AboutYourHolidays.ViewModels.PostViewModels
         public string City { get; set; }
         public string ImageUrl { get; set; }
         public string UserId { get; set; }
-
+        public User User { get; set; }
         public string FullName { get; set; }
         public System.DateTime CreatedOn { get; set; }
-        public List<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
         public List<string> Urls { get; set; }
         public static explicit operator PostDetailsModel(Post dbPost)
         {
@@ -42,9 +42,11 @@ namespace AboutYourHolidays.ViewModels.PostViewModels
                 City = dbPost.City,
                 ImageUrl = dbPost.ImageUrl,
                 UserId = dbPost.UserId,
+                User = dbPost.User,
                 FullName = dbPost.User.FullName,
                 CreatedOn=dbPost.CreatedOn,
-               
+                Comments = dbPost.Comment
+
             };
 
             return ps;
