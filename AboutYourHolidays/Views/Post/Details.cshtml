@@ -1,83 +1,36 @@
-﻿@model AboutYourHolidays.Models.Post
+﻿@model AboutYourHolidays.ViewModels.PostViewModels.PostDetailsModel
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<div class="row justify-content-center px-5 orangeContainer">
+    <div class="col-12" style="margin-bottom:30px;">
+        <input type="button"
+               value="Wstecz"
+               onclick="location.href='@Url.Action("Index", "Post")'"
+               class="myButton" />
+    </div>
+    <div class="col-6">
+        @foreach (var items in Model.Urls)
+        {
+            <div class="container imgsize">
+                <img class="zdjecie img-thumbnail w-100 h-100 d-block w-100" src=@Url.Content(items) />
+            </div>
+        }
+    </div>
+    <div class="col-6">
+        <h2 class="text-center">@Model.Tilte</h2>
+        <p>Dodane przez: @Model.UserId<br /> dnia: @Model.CreatedOn</p>
 
-<div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
-        </dt>
+        <p>Kraj: @Model.Country</p>
+        <p>Miasto: @Model.City</p>
+        <p>@Model.Description</p>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.Email)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Tilte)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Tilte)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastUpdatedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastUpdatedOn)
-        </dd>
-
-    </dl>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

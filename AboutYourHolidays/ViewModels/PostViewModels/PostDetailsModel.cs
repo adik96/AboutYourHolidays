@@ -27,9 +27,9 @@ namespace AboutYourHolidays.ViewModels.PostViewModels
         public string UserId { get; set; }
 
         public string FullName { get; set; }
-
+        public System.DateTime CreatedOn { get; set; }
         public List<Comment> Comments { get; set; }
-
+        public List<string> Urls { get; set; }
         public static explicit operator PostDetailsModel(Post dbPost)
         {
             if (dbPost == null) { return (PostDetailsModel)null; }
@@ -42,10 +42,28 @@ namespace AboutYourHolidays.ViewModels.PostViewModels
                 City = dbPost.City,
                 ImageUrl = dbPost.ImageUrl,
                 UserId = dbPost.UserId,
-                FullName = dbPost.User.FullName
+                FullName = dbPost.User.FullName,
+                CreatedOn=dbPost.CreatedOn,
+               
             };
 
             return ps;
         }
+        public static PostDetailsModel FromDB(Post dbPost)
+        {
+            return new PostDetailsModel()
+            {
+                Id = dbPost.Id,
+                Tilte = dbPost.Tilte,
+                Description = dbPost.Description,
+                Country = dbPost.Country,
+                City = dbPost.City,
+                ImageUrl = dbPost.ImageUrl,
+                UserId = dbPost.UserId,
+                CreatedOn = dbPost.CreatedOn,
+            };
+        }
+
+
     }
 }

@@ -50,12 +50,21 @@ namespace AboutYourHolidays.Controllers
         // GET: Post/Details/5
         public ActionResult Details(int id)
         {
-            Post post = _postRepository.Get(id);//_context.Post.Find(id);
-            if (post == null)
+            Post model = new Post();
+            model = _postRepository.Get(id);
+            string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
+
+            PostDetailsModel postmodel = PostDetailsModel.FromDB(model);
+
+
+            List<string> fullPathToPostFolder= Directory.GetFiles(Server.MapPath(fulPathName) + postmodel.Id).ToList();
+            for(int z=0;z<fullPathToPostFolder.Count();z++)
             {
-                return HttpNotFound();
+                fullPathToPostFolder[z]= fulPathName+model.Id.ToString()+'/'+ Path.GetFileName(fullPathToPostFolder[z]);
             }
-            return View(post);
+            
+            postmodel.Urls = fullPathToPostFolder;
+            return View(postmodel);
         }
 
         // GET: Post/Create
