@@ -42,6 +42,12 @@
     color: #ffffff !important;
     text-decoration: none;
 }
+a{
+    text-decoration:none!important;
+}
+a:hover{
+    color:black!important;
+}
 .myButton:hover {
     background-color: #f7cf6f;
     border: 2px solid #f7cf6f;

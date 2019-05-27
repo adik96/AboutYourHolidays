@@ -31,10 +31,12 @@ namespace AboutYourHolidays.Controllers
         public ActionResult Index(string text = null)
         {
             var posts = _postRepository.GetAll();//_context.Post.Include(p => p.User);
+
             if (text != null)
                 posts = posts.Where(x => x.Tilte.Contains(text) || x.Description.Contains(text));
 
             List<PostDetailsModel> list = new List<PostDetailsModel>();
+
             string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
             foreach (var el in posts.ToList())
             {
@@ -44,8 +46,15 @@ namespace AboutYourHolidays.Controllers
                 el.ImageUrl = fulPathName + el.Id.ToString() + '/' + firstPhotoName;
                 list.Add((PostDetailsModel)el);
             }
-                
 
+            foreach (var item in list)
+            {
+                var dlugosc = item.Description.Length;
+                if(dlugosc>=20)
+                item.ShortDescription = item.Description.Substring(0,20);
+                else
+                item.ShortDescription = item.Description.Substring(0, dlugosc);
+            }
             return View(list);
         }
 
@@ -72,7 +81,6 @@ namespace AboutYourHolidays.Controllers
             }
             else
                 ViewBag.UserFullName = null;
-
             return View(postmodel);
         }
 

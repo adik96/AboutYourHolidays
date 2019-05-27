@@ -16,7 +16,7 @@ namespace AboutYourHolidays.ViewModels.PostViewModels
         [Display(Name = "Opis:")]
         [MaxLength(500)]
         public string Description { get; set; }
-
+        public string ShortDescription { get; set; }
         [Display(Name = "Kraj:")]
         [MaxLength(50)]
         public string Country { get; set; }
