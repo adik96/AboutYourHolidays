@@ -35,27 +35,17 @@ namespace AboutYourHolidays.Controllers
             if (text != null)
                 posts = posts.Where(x => x.Tilte.Contains(text) || x.Description.Contains(text));
 
-            List<PostDetailsModel> list = new List<PostDetailsModel>();
+            return View(prepareResponsePosts(posts));
+        }
 
-            string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
-            foreach (var el in posts.ToList())
-            {
-                string uploadFullPath = Server.MapPath(fulPathName);
-                var fullPathToPostFolder = Directory.GetFiles(Server.MapPath(fulPathName) + el.Id.ToString());
-                var firstPhotoName = Path.GetFileName(fullPathToPostFolder.FirstOrDefault());
-                el.ImageUrl = fulPathName + el.Id.ToString() + '/' + firstPhotoName;
-                list.Add((PostDetailsModel)el);
-            }
+        public ActionResult MyPosts(string text = null)
+        {
+            var postsL = _postRepository.GetAll().ToList();//_context.Post.Include(p => p.User);
+            var posts = postsL.Where(x => User.Identity.GetUserId() == x.UserId).AsQueryable();
+            if (text != null)
+                posts = posts.Where(x => x.Tilte.Contains(text) || x.Description.Contains(text));
 
-            foreach (var item in list)
-            {
-                var dlugosc = item.Description.Length;
-                if(dlugosc>=20)
-                item.ShortDescription = item.Description.Substring(0,20);
-                else
-                item.ShortDescription = item.Description.Substring(0, dlugosc);
-            }
-            return View(list);
+            return View(prepareResponsePosts(posts));
         }
 
         // GET: Post/Details/5
@@ -64,8 +54,6 @@ namespace AboutYourHolidays.Controllers
             //Post model = new Post();
             var postmodel = (PostDetailsModel)_postRepository.Get(id);
             string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
-
-
 
             List<string> fullPathToPostFolder= Directory.GetFiles(Server.MapPath(fulPathName) + postmodel.Id).ToList();
             for(int z=0;z<fullPathToPostFolder.Count();z++)
@@ -215,6 +203,32 @@ namespace AboutYourHolidays.Controllers
                 _context.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private List<PostDetailsModel> prepareResponsePosts(IQueryable<Post> posts)
+        {
+            List<PostDetailsModel> list = new List<PostDetailsModel>();
+
+            string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
+            foreach (var el in posts.ToList())
+            {
+                string uploadFullPath = Server.MapPath(fulPathName);
+                var fullPathToPostFolder = Directory.GetFiles(Server.MapPath(fulPathName) + el.Id.ToString());
+                var firstPhotoName = Path.GetFileName(fullPathToPostFolder.FirstOrDefault());
+                el.ImageUrl = fulPathName + el.Id.ToString() + '/' + firstPhotoName;
+                list.Add((PostDetailsModel)el);
+            }
+
+            foreach (var item in list)
+            {
+                var dlugosc = item.Description.Length;
+                if (dlugosc >= 20)
+                    item.ShortDescription = item.Description.Substring(0, 20);
+                else
+                    item.ShortDescription = item.Description.Substring(0, dlugosc);
+            }
+
+            return list;
         }
     }
 }

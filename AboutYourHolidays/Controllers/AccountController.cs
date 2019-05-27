@@ -79,6 +79,8 @@ namespace AboutYourHolidays.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    if (returnUrl == null)
+                        returnUrl = "/Post/Index";
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
