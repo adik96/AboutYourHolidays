@@ -87,27 +87,36 @@ namespace AboutYourHolidays.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(PostAddViewModel addmodel, HttpPostedFileBase[] ImageFile)
         {
-            Post post = PostAddViewModel.ToDB(addmodel);
-            post.CreatedOn = DateTime.Now;
-            post.UserId = User.Identity.GetUserId();
-            _postRepository.Add(post);
-            string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
-            string uploadFullPath = Server.MapPath(fulPathName);
-            string endString = post.Id.ToString();
-            Directory.CreateDirectory(uploadFullPath + endString);
-            int i = 0;
-            foreach (var pp in ImageFile)
+            if (addmodel.City != null && addmodel.Country != null && addmodel.Description != null && addmodel.Title != null && ImageFile!=null)
             {
-                string extension = ".jpg";
-                string fileName = i + extension;
-                addmodel.ImageUrl = uploadFullPath + endString + "/" + fileName;
-                //sciezka zapisu zdjecia
-                fileName = Path.Combine(Server.MapPath("/Uploads/" + endString), fileName);
-                pp.SaveAs(fileName);
+                Post post = PostAddViewModel.ToDB(addmodel);
+                post.CreatedOn = DateTime.Now;
+                post.UserId = User.Identity.GetUserId();
+                _postRepository.Add(post);
+                string fulPathName = ConfigurationManager.AppSettings["UpladPath"];
+                string uploadFullPath = Server.MapPath(fulPathName);
+                string endString = post.Id.ToString();
+                Directory.CreateDirectory(uploadFullPath + endString);
+                int i = 0;
+                foreach (var pp in ImageFile)
+                {
+                    string extension = ".jpg";
+                    string fileName = i + extension;
+                    addmodel.ImageUrl = uploadFullPath + endString + "/" + fileName;
+                    //sciezka zapisu zdjecia
+                    fileName = Path.Combine(Server.MapPath("/Uploads/" + endString), fileName);
+                    pp.SaveAs(fileName);
 
-                i++;
+                    i++;
+                }
+                return RedirectToAction("Index", "Home", null);
             }
-            return RedirectToAction("Index", "Home", null);
+            else{
+                ModelState.AddModelError(
+                   string.Empty,
+                   "Wprowadzone dane są nieprawidłowe.");
+                return View(addmodel);
+            }
         }
 
         [Authorize]
